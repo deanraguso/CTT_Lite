@@ -4,6 +4,9 @@
 ## Source Control
 https://github.com/deanraguso/CTT_Lite
 
+## Project Management
+https://www.pivotaltracker.com/n/projects/2494756
+
 ## Purpose
 This application allows for scheduling and tracking your tasks within the command line.
 
