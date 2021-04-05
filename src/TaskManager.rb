@@ -10,7 +10,7 @@ class TaskManager
         load_config
         load_db
 
-
+        new_task
     end
 
     def load_config
@@ -27,18 +27,19 @@ class TaskManager
 
     def load_db
         @db = File.readlines(@db_address)
-        puts(@db[1])
     end
 
     def load_task
         t = Task.new(0)
-        puts @db_fp.read
         t.load_from_s(@db_fp.read)
+        
         return t
     end
 
-    def create_task
-
+    def new_task
+        t = Task.new(1) #Must change number
+        t.create
+        save_task(t)
     end
 
     def edit_task

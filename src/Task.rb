@@ -9,8 +9,34 @@ class Task
         @importance = 0
         @urgency = 0
         @time_required = 0
-        @creation_time = Time.new
-        @due_date = Time.new
+        @creation_time = Date.new
+        @due_date = Date.new
+    end
+    
+    def create
+        print "Enter task title: "
+        @title = gets.chomp
+
+        print "Enter task description: "
+        @body = gets.chomp
+
+        print "Enter task importance (1/10): "
+        @importance = gets.chomp.to_i
+
+        print "Enter task urgency (1/10): "
+        @urgency = gets.chomp.to_i
+
+        print "Enter task estimate duration in hours: "
+        @time_required = gets.chomp.to_f
+
+        print "Enter task due date (dd mm yyyy): "
+        dd_string = gets.chomp.split()
+        due_day = dd_string[0].to_i
+        due_month = dd_string[1].to_i
+        due_year = dd_string[2].to_i
+        @due_date = Date.new(due_year, due_month, due_day)
+
+        @creation_time = Date.today
     end
 
     def print_task
