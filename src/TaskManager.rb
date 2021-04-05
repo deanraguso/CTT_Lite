@@ -52,7 +52,12 @@ class TaskManager
         end
     end
 
-
+    def save_db
+        db_fp = File.open(@db_address, "w")
+        @db.each do |task|
+            db_fp.write(task.to_s + "\n")
+        end
+    end
 
     def get_next_id
         # Get the Unique next task ID
@@ -73,13 +78,15 @@ class TaskManager
     end
 
     def edit_task(id = 0)
+        
     end
 
     def destroy_task(id=0)
-        @db.delete(get_task[id])
+        @db = @db.filter() { |task| task.id != id}
+        save_db
     end
 
     def get_task(id=0)
-        t = @db.select { |row| row.id == id}
+        return t = @db.select { |row| row.id == id}
     end
 end
