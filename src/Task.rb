@@ -79,6 +79,4 @@ class Task
                 @due_date.to_s + "," +
                 @creation_time.to_s
     end
-
-
 end

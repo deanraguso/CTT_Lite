@@ -72,7 +72,7 @@ class TaskManager
         save_db
     end
 
-    def edit_task(id = 0)
+    def edit_task(id)
         destroy_task(id)
         t = Task.new(id)
         t.create
@@ -80,12 +80,16 @@ class TaskManager
         save_db
     end
 
-    def destroy_task(id=0)
-        @db = @db.filter() { |task| task.id != id}
+    def destroy_task(id)
+        @db = @db.select() { |task| task.id != id}
         save_db
     end
 
     def get_task(id=0)
-        return t = @db.select { |row| row.id == id}
+        t = @db.select do |row| 
+            row.id == id 
+        end
+        # Later, include validation.
+        return t[0] if t.length == 1
     end
 end

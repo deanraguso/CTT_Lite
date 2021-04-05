@@ -39,28 +39,53 @@ class Session
         puts "Welcome to CTT-Lite"
         puts "Assumes Signed In"
         puts "n: New Task"
+        puts "s [task id]: Show Task"
         puts "e [task id]: Edit Task"
         puts "d [task id]: Delete Task"
-        puts "c -[days]: Print Calendar"
+        puts "c [days]: Print Calendar"
         puts "o: Optimise Schedule"
+        puts "exit: Close Application"
     end
 
     def handle_menu
         menu_selection = gets.chomp
-        ms_first = menu_selection[0]
-        case ms_first
-        when "n"
-            # TaskManager.new
-        when "e"
-            # TaskManager.edit(menu_selection) May be null input
-        when "d"
-            # TaskManager.delete(menu_selection) May be null input
-        when "c"
-            # Calendar.print(menu_selection) May be null
-        when "o"
-            # Calendar.optimise()
+
+        if (menu_selection.include? " ")
+            # When an input argument is given.
+            menu_args = menu_selection.split(' ')
+
+            arg = menu_args[1].to_i
+            ms = menu_args[0]
+
+        elsif (['n', "exit"].include?(menu_selection))
+            # Features that won't require an input argument.
+            ms = menu_selection
+    
+        
         else
-            puts "That command was not recognized."
+            # Features that do require an input argument.
+            ms = menu_selection
+            print "Enter a valid Task ID: "
+            arg = gets.chomp.to_i
+        end
+
+        case ms
+            when "s"
+                @tm.get_task(arg).print_task
+            when "n"
+                @tm.new_task
+            when "e"
+                @tm.edit_task(arg)
+            when "d"
+                @tm.destroy_task(arg)
+            when "c"
+                # Calendar.print(menu_selection) May be null
+            when "o"
+                # Calendar.optimise()
+            when "exit"
+                exit
+            else
+                puts "That command was not recognized."
         end
     end
 end
