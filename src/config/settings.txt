@@ -1,1 +1,2 @@
-./db/data.csv
+Database Address:./db/data.csv
+Database Config Address:./db/data_settings.txt
