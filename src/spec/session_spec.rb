@@ -1,11 +1,10 @@
-require_relative 'spec_helper.rb'
+require_relative 'spec_helper'
+require_relative "../Session.rb"
 
 describe Session do
-    before do
-        @session = Session.new
-    end
-    
-    it "exists" do 
-        expect(@session).to respond_to(:new)
+    describe "#Session" do
+        before do
+            @session = Session.new
+        end    
     end
 end
