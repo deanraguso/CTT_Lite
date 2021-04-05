@@ -1,7 +1,6 @@
 require 'date' 
 
 class Task
-    attr_reader :creation_time, :time
     def initialize(id)
         @id = id
         @title = ""
@@ -22,11 +21,19 @@ class Task
         puts "Importance: #{@importance}"
         puts "Urgency: #{@urgency}"
         puts "Time Required: #{@time_required}"
-        puts "Due: #..."
+        puts "Due: #{@due_date}"
         puts "Created On: #{@creation_time}"
     end
 
     def to_CSV
-        
+        return  @id.to_s + "," +
+                @title.to_s + "," +
+                @body.to_s + "," +
+                @completed.to_s + "," +
+                @importance.to_s + "," +
+                @urgency.to_s + "," +
+                @time_required.to_s + "," +
+                @due_date.to_s + "," +
+                @creation_time.to_s
     end
 end
