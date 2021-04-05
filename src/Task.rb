@@ -34,6 +34,6 @@ class Task
                 @urgency.to_s + "," +
                 @time_required.to_s + "," +
                 @due_date.to_s + "," +
-                @creation_time.to_s
+                @creation_time.to_s + "\n"
     end
 end
