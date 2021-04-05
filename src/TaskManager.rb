@@ -22,13 +22,6 @@ class TaskManager
         @db_config_address = config[1].split(":")[1].chomp
     end 
 
-    def save_task(task)
-        db_fp = File.open(@db_address, "a")
-        task_string = task.to_s + "\n"
-        db_fp.write(task_string)
-        db_fp.close
-    end
-
     # Restores db from persistent memory
     def load_db
         db_string_arr = File.readlines(@db_address)
@@ -57,6 +50,7 @@ class TaskManager
         @db.each do |task|
             db_fp.write(task.to_s + "\n")
         end
+        db_fp.close
     end
 
     def get_next_id
@@ -74,11 +68,16 @@ class TaskManager
     def new_task
         t = Task.new(get_next_id) #Must change number
         t.create
-        save_task(t)
+        @db << t
+        save_db
     end
 
     def edit_task(id = 0)
-        
+        destroy_task(id)
+        t = Task.new(id)
+        t.create
+        @db << t
+        save_db
     end
 
     def destroy_task(id=0)
