@@ -25,7 +25,7 @@ class Task
         puts "Created On: #{@creation_time}"
     end
 
-    def to_CSV
+    def to_s
         return  @id.to_s + "," +
                 @title.to_s + "," +
                 @body.to_s + "," +
@@ -34,6 +34,20 @@ class Task
                 @urgency.to_s + "," +
                 @time_required.to_s + "," +
                 @due_date.to_s + "," +
-                @creation_time.to_s + "\n"
+                @creation_time.to_s
+    end
+
+    def load_from_s(task_string)
+        task_arr = task_string.split(",")
+
+        @id = task_arr[0]
+        @title = task_arr[1]
+        @body = task_arr[2]
+        @completed = task_arr[3]
+        @importance = task_arr[4]
+        @urgency = task_arr[5]
+        @time_required = task_arr[6]
+        @due_date = task_arr[7]
+        @creation_time = task_arr[8]
     end
 end
