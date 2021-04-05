@@ -1,4 +1,16 @@
-0,asdf,asdf,false,7,8,9.0,2020-05-12,2021-04-05
-10,seven,asdf,false,6,6,7.0,2029-05-12,2021-04-05
-11,asdf,asdf,false,7,7,7.0,2022-02-02,2021-04-05
-14,Editted Pimp,asdf,false,32,23,23.0,2019-03-23,2021-04-05
+0,Task A,Description of Task A,false,7,7,3,2021-04-27,2021-04-05
+1,Task AB,Description of Task AB,false,7,7,3,2021-04-27,2021-04-05
+2,Task AC,Description of Task AC,false,7,7,3,2021-04-27,2021-04-05
+3,Task B,Description of Task B,false,3,9,2.5,2021-04-15,2021-04-05
+4,Task BA,Description of Task BA,false,3,9,2.5,2021-04-15,2021-04-05
+5,Task BC,Description of Task BC,false,3,9,2.5,2021-04-15,2021-04-05
+6,Task BD,Description of Task BD,false,3,9,2.5,2021-04-15,2021-04-05
+7,Task BE,Description of Task BE,false,3,9,2.5,2021-04-15,2021-04-05
+8,Task BF,Description of Task BF,false,3,9,2.5,2021-04-15,2021-04-05
+9,Task BG,Description of Task BG,false,3,9,2.5,2021-04-15,2021-04-05
+10,Task CA,Description of Task CA,false,3,2,2.5,2021-04-15,2021-04-05
+11,Task CC,Description of Task CC,false,3,2,2.5,2021-04-15,2021-04-05
+12,Task CD,Description of Task CD,false,3,2,2.5,2021-04-15,2021-04-05
+13,Task CE,Description of Task CE,false,3,2,2.5,2021-04-15,2021-04-05
+14,Task CF,Description of Task CF,false,3,2,2.5,2021-04-15,2021-04-05
+15,Task CG,Description of Task CG,false,3,2,2.5,2021-04-15,2021-04-05
