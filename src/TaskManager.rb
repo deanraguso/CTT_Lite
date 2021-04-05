@@ -12,7 +12,6 @@ class TaskManager
 
         # Load in DB
         load_db
-        puts @db[0][8].class
     end
 
     def load_config
@@ -72,11 +71,11 @@ class TaskManager
 
     end
 
-    def destroy_task
+    def destroy_task(id=0)
 
     end
 
-    def show_task(id=0)
-        t = @db.select()
+    def get_task(id=0)
+        t = @db.select { |row| row[0] == id}
     end
 end
