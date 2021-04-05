@@ -1,7 +1,9 @@
 require 'date' 
 
 class Task
-    def initialize(id)
+    attr_reader :id
+
+    def initialize(id=999)
         @id = id
         @title = ""
         @body = ""
@@ -39,6 +41,21 @@ class Task
         @creation_time = Date.today
     end
 
+    def load(id, title="", body="", completed=false, importance=0,
+        urgency=0, time_required=0, due_date=Date.today, 
+        creation_time=Date.today)
+
+        @id = id
+        @title = title
+        @body = body
+        @completed = completed
+        @importance = importance
+        @urgency = urgency
+        @time_required = time_required
+        @due_date = due_date
+        @creation_time = creation_time
+    end
+
     def print_task
         puts "Task ID:#{@id}"
         puts "Title: #{@title}"
@@ -62,4 +79,6 @@ class Task
                 @due_date.to_s + "," +
                 @creation_time.to_s
     end
+
+
 end

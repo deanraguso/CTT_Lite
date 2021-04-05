@@ -33,21 +33,26 @@ class TaskManager
     def load_db
         db_string_arr = File.readlines(@db_address)
         db_string_arr.each do |line|
-            fields = line.split(",")
+            # f for fields
+            f = line.split(",") 
+            task = Task.new
 
             # Coerce data into original types
-            fields[0] = fields[0].to_i
-            fields[3] = fields[3] == "true"
-            fields[4] = fields[4].to_i
-            fields[5] = fields[5].to_i
-            fields[6] = fields[6].to_f
-            fields[7] = Date.parse fields[7]
-            fields[8] = Date.parse fields[8]
+            f[0] = f[0].to_i
+            f[3] = f[3] == "true"
+            f[4] = f[4].to_i
+            f[5] = f[5].to_i
+            f[6] = f[6].to_f
+            f[7] = Date.parse f[7]
+            f[8] = Date.parse f[8]
 
             #Push into DB
-            @db << fields
+            task.load(f[0], f[1], f[2], f[3], f[4], f[5],f[6],f[7],f[8])
+            @db << task
         end
     end
+
+
 
     def get_next_id
         # Get the Unique next task ID
@@ -67,15 +72,14 @@ class TaskManager
         save_task(t)
     end
 
-    def edit_task
-
+    def edit_task(id = 0)
     end
 
     def destroy_task(id=0)
-
+        @db.delete(get_task[id])
     end
 
     def get_task(id=0)
-        t = @db.select { |row| row[0] == id}
+        t = @db.select { |row| row.id == id}
     end
 end
