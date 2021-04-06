@@ -22,6 +22,10 @@ class TaskManager
         @calendar = Calendar.new(@db, 7)
     end
 
+    def task_belongs_to_user?(task, user_id)
+        return task.user_id == user_id
+    end
+
     def create_calendar(timeframe)
         @calendar.create_schedule(@db, timeframe)
     end
@@ -82,7 +86,7 @@ class TaskManager
     end
 
     def new_task
-        t = Task.new(get_next_id) #Must change number
+        t = Task.new(get_next_id, @current_user_id) #Must change number
         t.create
         @db << t
         save_db

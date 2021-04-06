@@ -3,7 +3,7 @@ require 'date'
 class Task
     attr_reader :id, :time_required
 
-    def initialize(id=999)
+    def initialize(id=999, user_id=999)
         @id = id
         @title = ""
         @body = ""
@@ -13,9 +13,10 @@ class Task
         @time_required = 0
         @creation_time = Date.new
         @due_date = Date.new
+        @user_id = user_id
     end
     
-    def create
+    def create(user_id)
         print "Enter task title: "
         @title = gets.chomp
 
@@ -37,15 +38,16 @@ class Task
         due_month = dd_string[1].to_i
         due_year = dd_string[2].to_i
         @due_date = Date.new(due_year, due_month, due_day)
-
         @creation_time = Date.today
+        @user_id = user_id
     end
 
-    def load(id, title="", body="", completed=false, importance=0,
+    def load(id, user_id,title="", body="", completed=false, importance=0,
         urgency=0, time_required=0, due_date=Date.today, 
         creation_time=Date.today)
 
         @id = id
+        @user_id = user_id
         @title = title
         @body = body
         @completed = completed
@@ -66,6 +68,7 @@ class Task
         puts "Time Required: #{@time_required}"
         puts "Due: #{@due_date}"
         puts "Created On: #{@creation_time}"
+        puts "User ID:#{@user_id}"
     end
 
     def to_s
@@ -77,6 +80,7 @@ class Task
                 @urgency.to_s + "," +
                 @time_required.to_s + "," +
                 @due_date.to_s + "," +
-                @creation_time.to_s
+                @creation_time.to_s + "," +
+                @user_id.to_s
     end
 end
