@@ -8,6 +8,7 @@ class Calendar
         @user_id = user_id
         @mode = "balanced"
 
+        # Remakes database, filtering out any entries that don't belong to user.
         @db = []
         filter_db(db)
 
