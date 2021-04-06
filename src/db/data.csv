@@ -1,6 +1,6 @@
-0,Task A,Description of Task A,false,7,7,3,2021-04-27,2021-04-05,0
-1,Task AB,Description of Task AB,false,7,7,3,2021-04-27,2021-04-05,0
-2,Task AC,Description of Task AC,false,7,7,3,2021-04-27,2021-04-05,0
+0,Task A,Description of Task A,false,7,7,3.0,2021-04-27,2021-04-05,0
+1,Task AB,Description of Task AB,false,7,7,3.0,2021-04-27,2021-04-05,0
+2,Task AC,Description of Task AC,false,7,7,3.0,2021-04-27,2021-04-05,0
 3,Task B,Description of Task B,false,3,9,2.5,2021-04-15,2021-04-05,0
 4,Task BA,Description of Task BA,false,3,9,2.5,2021-04-15,2021-04-05,0
 5,Task BC,Description of Task BC,false,3,9,2.5,2021-04-15,2021-04-05,0
@@ -14,3 +14,4 @@
 13,Task CE,Description of Task CE,false,3,2,2.5,2021-04-15,2021-04-05,2
 14,Task CF,Description of Task CF,false,3,2,2.5,2021-04-15,2021-04-05,2
 15,Task CG,Description of Task CG,false,3,2,2.5,2021-04-15,2021-04-05,2
+17,Majorly Itchy Nose,Not Pleasant,false,9,8,0.1,2022-01-01,2021-04-06,0

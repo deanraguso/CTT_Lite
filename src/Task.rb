@@ -16,7 +16,7 @@ class Task
         @user_id = user_id
     end
     
-    def create(user_id)
+    def create
         print "Enter task title: "
         @title = gets.chomp
 
@@ -39,12 +39,11 @@ class Task
         due_year = dd_string[2].to_i
         @due_date = Date.new(due_year, due_month, due_day)
         @creation_time = Date.today
-        @user_id = user_id
     end
 
-    def load(id, user_id,title="", body="", completed=false, importance=0,
+    def load(id, title="", body="", completed=false, importance=0,
         urgency=0, time_required=0, due_date=Date.today, 
-        creation_time=Date.today)
+        creation_time=Date.today, user_id)
 
         @id = id
         @user_id = user_id

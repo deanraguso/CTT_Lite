@@ -58,9 +58,10 @@ class TaskManager
             f[6] = f[6].to_f
             f[7] = Date.parse f[7]
             f[8] = Date.parse f[8]
+            f[9] = f[9].chomp.to_i
 
             #Push into DB
-            task.load(f[0], f[1], f[2], f[3], f[4], f[5],f[6],f[7],f[8])
+            task.load(f[0], f[1], f[2], f[3], f[4], f[5],f[6],f[7],f[8], f[9])
             @db << task
         end
     end
@@ -93,6 +94,7 @@ class TaskManager
     end
 
     def edit_task(id)
+        # If incorrect user, deny permission
         destroy_task(id)
         t = Task.new(id)
         t.create
