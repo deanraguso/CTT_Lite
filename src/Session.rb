@@ -7,13 +7,16 @@ require_relative "Calendar.rb"
 
 class Session
     def initialize
+        # Handle all Help Flags
         handle_help
-        
-        @tm = TaskManager.new
+
+        # Initialize the User Database and Login
         @um = UserManager.new
-        
-        # Friendly sign in request first time.
         @um.menu
+
+        # Once Signed in, pass id as activation down to 
+        @tm = TaskManager.new(@um.user.id)
+
         menu
     end
 
@@ -55,6 +58,14 @@ class Session
         puts "exit: Close Application"
     end
 
+    def sign_out
+        @um.sign_out
+        @um.menu
+
+        # Essentially, if you log out, you must log into a new valid user. 
+        @tm = TaskManager.new(@um.user.id)
+    end
+
     def handle_menu
         menu_selection = gets.chomp
 
@@ -90,8 +101,7 @@ class Session
             when "o"
                 # Calendar.optimise()
             when "q"
-                @um.sign_out
-                @um.menu
+                sign_out
             when "exit"
                 exit
             else

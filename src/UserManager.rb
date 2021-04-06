@@ -1,5 +1,5 @@
 class UserManager
-    attr_reader :signed_in
+    attr_reader :signed_in, :user
 
     def initialize
         # Load Config

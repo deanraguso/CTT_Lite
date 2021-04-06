@@ -3,12 +3,14 @@ require_relative "Task.rb"
 class TaskManager
     attr_reader :db, :calendar
 
-    def initialize
+    def initialize(current_user_id)
         # Database loads into array db
         @db_address = ""
         @db_config_address = ""
         @db = []
         
+        # Current user id
+        @current_user_id = current_user_id
 
         # Load session files
         load_config
@@ -16,6 +18,7 @@ class TaskManager
         # Load in DB - db dependant things below.
         load_db
         
+        # Basic and Original Calendar 
         @calendar = Calendar.new(@db, 7)
     end
 
