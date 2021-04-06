@@ -39,7 +39,6 @@ class Schedule
                 # If the plan fits on the current day
                 @plan[index][:hours] += task.time_required
                 @plan[index][:tasks] << task
-                puts "Iterating over id:#{task.id}, day #{index + 1} total #{@plan[index][:hours]}"
 
             else 
                 #If the plan didn't fit, go to next day
@@ -50,7 +49,6 @@ class Schedule
                 @plan[index][:tasks] = []
                 
                 @plan[index][:hours] += task.time_required
-                puts "Iterating over id:#{task.id}, day #{index + 1} total #{@plan[index][:hours]}"
                 @plan[index][:tasks] << task
             end
         end

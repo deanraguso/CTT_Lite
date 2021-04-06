@@ -28,7 +28,7 @@ class TaskManager
     end
 
     def load_config
-        settings_file = File.open("./config/settings.txt","r")
+        settings_file = File.open("./config/db_settings.txt","r")
         config = settings_file.readlines()
 
         @db_address = config[0].split(":")[1].chomp

@@ -15,11 +15,13 @@ class Session
 
     def menu
         loop do
-            if @um.is_logged_in?
+            if @um.signed_in
                 print_menu
                 handle_menu
             else
-                @um.menu
+                puts "Not Signed In!"
+                gets
+                # @um.menu
             end
         end
     end
