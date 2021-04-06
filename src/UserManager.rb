@@ -16,7 +16,7 @@ class UserManager
         @user = User.new #To avoid errors
 
         #For testing only
-        puts get_user(3)
+        puts destroy_user(3)
 
     end
 
@@ -82,6 +82,12 @@ class UserManager
 
         # Later, include validation.
         return u[0] if u.length == 1
+    end
+
+    def destroy_user(id)
+        @db = @db.select() { |user| user.id != id}
+        p @db
+        save_db
     end
 
     def sign_in
