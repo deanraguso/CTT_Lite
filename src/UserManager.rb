@@ -16,7 +16,7 @@ class UserManager
         @user = User.new #To avoid errors
 
         #For testing only
-        @user = new_user
+        puts get_user(3)
 
     end
 
@@ -73,6 +73,15 @@ class UserManager
         signed_in = true
 
         return u #User should be signed in after creation
+    end
+
+    def get_user(id=0)
+        u = @db.select do |row| 
+            row.id == id 
+        end
+
+        # Later, include validation.
+        return u[0] if u.length == 1
     end
 
     def sign_in
