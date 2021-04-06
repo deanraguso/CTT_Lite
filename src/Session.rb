@@ -79,7 +79,8 @@ class Session
             when "d"
                 @tm.destroy_task(arg)
             when "c"
-                # Calendar.print(menu_selection) May be null
+                @tm.create_calendar(arg)
+                @tm.print_calendar
             when "o"
                 # Calendar.optimise()
             when "exit"

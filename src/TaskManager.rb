@@ -1,17 +1,30 @@
 require_relative "Task.rb"
 
 class TaskManager
+    attr_reader :db, :calendar
+
     def initialize
         # Database loads into array db
         @db_address = ""
         @db_config_address = ""
         @db = []
+        
 
         # Load session files
         load_config
 
-        # Load in DB
+        # Load in DB - db dependant things below.
         load_db
+        
+        @calendar = Calendar.new(@db, 7)
+    end
+
+    def create_calendar(timeframe)
+        @calendar.create_schedule(@db, timeframe)
+    end
+
+    def print_calendar
+        @calendar.print_schedule
     end
 
     def load_config
