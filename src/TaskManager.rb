@@ -22,8 +22,20 @@ class TaskManager
         @calendar = Calendar.new(@db, 7)
     end
 
-    def task_belongs_to_user?(task, user_id)
-        return task.user_id == user_id
+    def task_belongs_to_user?(task_id)
+        owner_id = -1
+
+        @db.each do |task|
+            if task.id == task_id
+                owner_id = task.user_id
+            end
+        end
+
+        if owner_id == -1
+            puts "Task Not Found!"
+        end
+
+        return owner_id == @current_user_id
     end
 
     def create_calendar(timeframe)
@@ -94,24 +106,38 @@ class TaskManager
     end
 
     def edit_task(id)
-        # If incorrect user, deny permission
-        destroy_task(id)
-        t = Task.new(id)
-        t.create
-        @db << t
-        save_db
+        if task_belongs_to_user?(id)
+            destroy_task(id)
+            t = Task.new(id)
+            t.create
+            @db << t
+            save_db
+        else
+            puts "You may only edit your own tasks!"
+            return -1
+        end
     end
 
     def destroy_task(id)
-        @db = @db.select() { |task| task.id != id}
-        save_db
+        if task_belongs_to_user?(id)
+            @db = @db.select() { |task| task.id != id}
+            save_db
+        else
+            puts "You may only delete your own tasks!"
+            return -1
+        end
     end
 
     def get_task(id=0)
-        t = @db.select do |row| 
-            row.id == id 
+        if task_belongs_to_user?(id)
+            t = @db.select do |row| 
+                row.id == id 
+            end
+            # Later, include validation.
+            return t[0] if t.length == 1
+        else 
+            puts "You may only view your own tasks!"
+            return -1
         end
-        # Later, include validation.
-        return t[0] if t.length == 1
     end
 end

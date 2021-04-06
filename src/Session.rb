@@ -88,7 +88,8 @@ class Session
 
         case ms
             when "s"
-                @tm.get_task(arg).print_task
+                t = @tm.get_task(arg)
+                t.print_task unless t==-1
             when "n"
                 @tm.new_task
             when "e"
