@@ -9,15 +9,18 @@ class Session
     def initialize
         @tm = TaskManager.new
         @um = UserManager.new
-        # @um.menu (Login Menu)
         handle_help
         menu
     end
 
     def menu
         loop do
-            print_menu
-            handle_menu
+            if @um.is_logged_in?
+                print_menu
+                handle_menu
+            else
+                @um.menu
+            end
         end
     end
 
