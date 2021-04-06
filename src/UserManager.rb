@@ -14,10 +14,6 @@ class UserManager
         #Initialize User
         @signed_in = false
         @user = User.new #To avoid errors
-
-        #For testing only
-        puts edit_user(0)
-
     end
 
     def load_config
@@ -38,6 +34,8 @@ class UserManager
 
             # Coerce data into original types (other 2 already string)
             f[0] = f[0].to_i
+            f[1] = f[1].chomp
+            f[2] = f[2].chomp
         
             #Push into DB
             user.load(f[0], f[1], f[2])
@@ -98,11 +96,27 @@ class UserManager
     end
 
     def sign_in
+        print "Please enter a VALID user ID: "
+        id = gets.chomp.to_i
+        user = get_user(id)
+
+        print "Please enter your account password: "
+        pw = gets.chomp
         
+        # Authenticate Login
+        if user.password_match(pw)
+            @signed_in = true
+            @user = user
+            puts "You are now logged in!"
+        else
+            "You entered the incorrect password!"
+            exit
+        end
     end
 
     def sign_out
-
+        @signed_in = false
+        puts "You are now signed out!"
     end
 
     def create_login

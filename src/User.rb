@@ -6,6 +6,10 @@ class User
         @password = ""
     end
 
+    def password_match(pw)
+        return @password == pw
+    end
+
     def create(id)
         @id = id
         print "Please enter a user name: "
@@ -19,10 +23,6 @@ class User
         @id = id
         @name = name
         @password = password
-
-        puts @id 
-        puts @name
-        puts @password
     end
 
     def to_s

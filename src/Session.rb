@@ -7,9 +7,12 @@ require_relative "Calendar.rb"
 
 class Session
     def initialize
+        handle_help
+        
         @tm = TaskManager.new
         @um = UserManager.new
-        handle_help
+        
+        @um.sign_in
         menu
     end
 
@@ -42,7 +45,6 @@ class Session
 
     def print_menu
         puts "Welcome to CTT-Lite"
-        puts "Assumes Signed In"
         puts "n: New Task"
         puts "s [task id]: Show Task"
         puts "e [task id]: Edit Task"
