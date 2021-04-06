@@ -16,6 +16,31 @@ class UserManager
         @user = User.new #To avoid errors
     end
 
+    def menu
+        print_options
+        handle_options
+    end
+
+    def print_options
+        puts "s: Sign In"
+        puts "c: Create Account"
+        puts "exit: Exit Application"
+    end
+
+    def handle_options
+        arg = gets.chomp
+        case arg
+        when "s"
+            sign_in
+        when "c"
+            new_user
+        when "exit"
+            exit
+        else
+            menu
+        end
+    end
+
     def load_config
         settings_file = File.open("./config/u_settings.txt","r")
         config = settings_file.readlines()
@@ -68,7 +93,7 @@ class UserManager
         u.create(get_next_id)
         @db << u
         save_db
-        signed_in = true
+        @signed_in = true
 
         return u #User should be signed in after creation
     end
@@ -117,9 +142,5 @@ class UserManager
     def sign_out
         @signed_in = false
         puts "You are now signed out!"
-    end
-
-    def create_login
-
     end
 end

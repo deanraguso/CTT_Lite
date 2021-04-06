@@ -12,7 +12,8 @@ class Session
         @tm = TaskManager.new
         @um = UserManager.new
         
-        @um.sign_in
+        # Friendly sign in request first time.
+        @um.menu
         menu
     end
 
@@ -23,8 +24,7 @@ class Session
                 handle_menu
             else
                 puts "Not Signed In!"
-                gets
-                # @um.menu
+                @um.menu
             end
         end
     end
@@ -51,6 +51,7 @@ class Session
         puts "d [task id]: Delete Task"
         puts "c [days]: Print Calendar"
         puts "o: Optimise Schedule"
+        puts "q: Sign Out"
         puts "exit: Close Application"
     end
 
@@ -64,11 +65,9 @@ class Session
             arg = menu_args[1].to_i
             ms = menu_args[0]
 
-        elsif (['n', "exit"].include?(menu_selection))
+        elsif (['n', 'q', "exit"].include?(menu_selection))
             # Features that won't require an input argument.
             ms = menu_selection
-    
-        
         else
             # Features that do require an input argument.
             ms = menu_selection
@@ -90,6 +89,9 @@ class Session
                 @tm.print_calendar
             when "o"
                 # Calendar.optimise()
+            when "q"
+                @um.sign_out
+                @um.menu
             when "exit"
                 exit
             else
