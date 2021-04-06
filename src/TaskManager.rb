@@ -19,7 +19,7 @@ class TaskManager
         load_db
         
         # Basic and Original Calendar 
-        @calendar = Calendar.new(@db, 7)
+        @calendar = Calendar.new(@db, 7, current_user_id)
     end
 
     def task_belongs_to_user?(task_id)
@@ -39,7 +39,7 @@ class TaskManager
     end
 
     def create_calendar(timeframe)
-        @calendar.create_schedule(@db, timeframe)
+        @calendar.create_schedule(timeframe)
     end
 
     def print_calendar

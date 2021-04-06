@@ -4,9 +4,10 @@ class Schedule
         @duration = duration
 
         #Array of objects that hold the total hours and list of tasks
-        @plan = [Hash.new] 
-        @plan[0][:hours] = 0.0
-        @plan[0][:tasks] = [] 
+        @plan = [] 
+        @plan[index] = Hash.new
+        @plan[index][:hours] = 0.0
+        @plan[index][:tasks] = []
 
         @total_work_hours = get_work_hours
         @rest_days = [6,0] 
@@ -32,9 +33,12 @@ class Schedule
     # Must adjust so that increment keeps happening to skip over rest_days
     def form_schedule(db, timeframe=7)
         index = 0
+        @plan[index] = Hash.new
+        @plan[index][:hours] = 0.0
+        @plan[index][:tasks] = []
 
         db.each do |task|
-            if ( task.time_required + @plan[index][:hours] ) * @safety_factor <= @working_hours
+            if ( task.time_required.to_f + @plan[index][:hours] ) * @safety_factor <= @working_hours
 
                 # If the plan fits on the current day
                 @plan[index][:hours] += task.time_required
