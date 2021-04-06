@@ -16,7 +16,7 @@ class UserManager
         @user = User.new #To avoid errors
 
         #For testing only
-        puts destroy_user(3)
+        puts edit_user(0)
 
     end
 
@@ -86,7 +86,14 @@ class UserManager
 
     def destroy_user(id)
         @db = @db.select() { |user| user.id != id}
-        p @db
+        save_db
+    end
+
+    def edit_user(id)
+        destroy_user(id)
+        u = User.new
+        u.create(id)
+        @db << u
         save_db
     end
 
