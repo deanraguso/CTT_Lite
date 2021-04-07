@@ -5,9 +5,9 @@ class Schedule
 
         #Array of objects that hold the total hours and list of tasks
         @plan = [] 
-        @plan[index] = Hash.new
-        @plan[index][:hours] = 0.0
-        @plan[index][:tasks] = []
+        @plan[0] = Hash.new
+        @plan[0][:hours] = 0.0
+        @plan[0][:tasks] = []
 
         @total_work_hours = get_work_hours
         @rest_days = [6,0] 
@@ -59,6 +59,7 @@ class Schedule
     end
 
     def print_plan
+        system 'clear'
         @plan.each_with_index do |day, index|
             print "Day #{index+1} with #{day[:hours]} hours of work:\n\t"
             day[:tasks].each {|task| print "#{task.id}\t"}

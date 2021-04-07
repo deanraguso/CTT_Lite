@@ -12,6 +12,7 @@ https://www.pivotaltracker.com/n/projects/2494756
 - Task Class: Holds the task information, id, creator, etc.
 - TaskManager Class: Manages the saving of tasks, all configuration, instanced once per session.
 - Calendar Class: Uses the task manager in addition to it's own logic to arrange and display tasks in conjunction with system date.
+- Schedule Class: Holds the current task items, varies in size depending on Calendar requirements.
 - User Class: Holds username, password (eventually encryption methods), a unique id, etc.
 - UserManager Class: Manages the database of users, holds the methods for logging in, creating and editting accounts etc.
 

@@ -17,6 +17,7 @@ class Task
     end
     
     def create
+        system 'clear'
         print "Enter task title: "
         @title = gets.chomp
 
@@ -58,6 +59,7 @@ class Task
     end
 
     def print_task
+        system 'clear'
         puts "Task ID:#{@id}"
         puts "Title: #{@title}"
         puts "Body: #{@body}"
@@ -68,6 +70,7 @@ class Task
         puts "Due: #{@due_date}"
         puts "Created On: #{@creation_time}"
         puts "User ID:#{@user_id}"
+        puts
     end
 
     def to_s
