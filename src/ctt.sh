@@ -1,2 +1,2 @@
 #! /bin/bash
-ruby Main.rb
+ruby Main.rb $1
