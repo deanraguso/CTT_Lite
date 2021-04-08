@@ -6,3 +6,4 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 gem 'rspec', '~> 3.5'
 gem 'rspec-core', '~> 3.4', '>= 3.4.4'
+gem 'tty-prompt', '~> 0.23.0'

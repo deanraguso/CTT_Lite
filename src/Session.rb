@@ -3,6 +3,7 @@ require_relative "UserManager.rb"
 require_relative "Task.rb"
 require_relative "User.rb"
 require_relative "Calendar.rb"
+require 'tty-prompt'
 
 
 class Session
@@ -17,14 +18,13 @@ class Session
         # Once Signed in, pass id as activation down to 
         @tm = TaskManager.new(@um.user.id)
 
-        menu
+        login_menu
     end
 
-    def menu
+    def login_menu
         loop do
             if @um.signed_in
-                print_menu
-                handle_menu
+                main_menu
             else
                 puts "Not Signed In!"
                 @um.menu
@@ -46,16 +46,20 @@ class Session
         return arg_string.include?("-h") || arg_string.include?("--help")
     end
 
-    def print_menu
-        puts "Welcome to CTT-Lite"
-        puts "n: New Task"
-        puts "s [task id]: Show Task"
-        puts "e [task id]: Edit Task"
-        puts "d [task id]: Delete Task"
-        puts "c [days]: Print Calendar"
-        puts "o: Optimise Schedule"
-        puts "q: Sign Out"
-        puts "exit: Close Application"
+    def main_menu
+        prompt = TTY::Prompt.new
+        a= prompt.select("Welcome to CTT-Lite", [
+            { name: "New Task", value: "n" },
+            { name: "Show Task", value: "s" },
+            { name: "Edit Task", value: "e" },
+            { name: "Delete Task", value: "d" },
+            { name: "Print Calendar", value: "c" },
+            { name: "Optimise Calendar", value: "o" },
+            { name: "Sign Out", value: "q" },
+            { name: "Exit", value: "exit" }
+        ])
+        system "clear"
+        handle_menu(a)
     end
 
     def sign_out
@@ -66,8 +70,8 @@ class Session
         @tm = TaskManager.new(@um.user.id)
     end
 
-    def handle_menu
-        menu_selection = gets.chomp
+    def handle_menu(a)
+        menu_selection=a
 
         if (menu_selection.include? " ")
             # When an input argument is given.
