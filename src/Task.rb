@@ -15,30 +15,28 @@ class Task
         @due_date = Date.new
         @user_id = user_id
     end
-    
+
     def create
+        prompt = TTY::Prompt.new
         system 'clear'
-        print "Enter task title: "
-        @title = gets.chomp
 
-        print "Enter task description: "
-        @body = gets.chomp
+        # Prompts
+        @title = prompt.ask("Enter task title: ") do |q|
+            q.validate -> (input) {input.chomp.length > 0}
+            q.messages[:valid?] = "Invalid Title: Title cannot be blank!"
+        end
+        @body = prompt.ask("Enter task description: ")
+        @importance = prompt.slider("Importance: ", min: 0, max: 10, step: 1)
+        @urgency = prompt.slider("Urgency: ", min: 0, max: 10, step: 1)
+        @time_required = prompt.slider("Task estimate duration in hours: ", min: 0, max: 8, step: 0.2)
+        @date_response = prompt.ask("Enter task due date (dd/mm/yyyy): ") do |q|
+            q.required true
+            q.convert :date
+            q.validate ->(input) {Date.today <= Date.parse(input)}
+            q.messages[:valid?] = "Invalid Date: Date must be in future!"
+        end
 
-        print "Enter task importance (1/10): "
-        @importance = gets.chomp.to_i
-
-        print "Enter task urgency (1/10): "
-        @urgency = gets.chomp.to_i
-
-        print "Enter task estimate duration in hours: "
-        @time_required = gets.chomp.to_f
-
-        print "Enter task due date (dd mm yyyy): "
-        dd_string = gets.chomp.split()
-        due_day = dd_string[0].to_i
-        due_month = dd_string[1].to_i
-        due_year = dd_string[2].to_i
-        @due_date = Date.new(due_year, due_month, due_day)
+        #Default Actions
         @creation_time = Date.today
     end
 
