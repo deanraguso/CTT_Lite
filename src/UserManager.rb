@@ -126,9 +126,11 @@ class UserManager
                     .sort_by {|obj| obj[:value]} )
 
         user = get_user(response)
-
-        print "Please enter your account password: "
-        pw = gets.chomp
+        
+        pw = prompt.ask("Please enter your account password: ") do |q|
+            q.validate -> (input) {user.password_match(input)}
+            q.messages[:valid?] = "Error: Incorrect Password!"
+        end
         
         # Authenticate Login
         if user.password_match(pw)
