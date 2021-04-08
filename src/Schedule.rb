@@ -1,3 +1,6 @@
+DAY = {1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 
+    4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday'}
+
 class Schedule
     def initialize(db, duration)
         @db = db
@@ -48,9 +51,12 @@ class Schedule
     # Print the Schedule as it exists now. (Potentially unoptimised)
     def print_plan
         system 'clear'
+        today = Date.today
         @plan.each_with_index do |day, index|
-            print "Day #{index+1} with #{day[:hours]} hours of work:\n\t"
-            day[:tasks].each {|task| print "#{task.id}\t"}
+            print "#{index+1}. #{Date::DAYNAMES[(today+index).cwday%7]} with #{day[:hours]} hours of work:\n\t"
+            day[:tasks].each do |task| 
+                print "ID: #{task.id}\tTitle: #{task.title}\n\t"
+            end
             puts
         end
     end
