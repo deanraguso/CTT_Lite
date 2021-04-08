@@ -120,9 +120,10 @@ class UserManager
     end
 
     def sign_in
-        print "Please enter a VALID user ID: "
-        id = gets.chomp.to_i
-        user = get_user(id)
+        prompt = TTY::Prompt.new
+        response = prompt.select("Please select your username:", @db.map(){ |user| user.id }.sort())
+
+        user = get_user(response)
 
         print "Please enter your account password: "
         pw = gets.chomp
