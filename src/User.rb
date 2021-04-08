@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class User
     attr_reader :id, :name
     def initialize(id=999)
@@ -7,7 +9,8 @@ class User
     end
 
     def password_match(pw)
-        return @password == pw
+        p pw
+        return @password == pw.chomp
     end
 
     def create(id)
@@ -16,7 +19,9 @@ class User
         @name = gets.chomp
 
         print "Please enter a password: "
-        @password = gets.chomp
+        x = gets.chomp
+        p x
+        @password = BCrypt::Password.create(x)
     end
 
     def load(id, name, password)

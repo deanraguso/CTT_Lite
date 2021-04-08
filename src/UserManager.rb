@@ -17,7 +17,7 @@ class UserManager
     end
 
     def menu
-        prompt = TTY::Prompt.new
+        prompt = TTY::Prompt.new(active_color: :yellow)
         response = prompt.select("CTT-Lite", [
             { name: "Sign In", value: "s" },
             { name: "Create Account", value: "c" },
@@ -49,20 +49,33 @@ class UserManager
         settings_file.close
     end 
 
+    def read_to_comma(line)
+        o = ""
+        line.each_char do |c|
+            if c == ","
+                break
+            else
+                o << c
+            end
+        end
+
+        return o
+    end
+
     def load_db
         db_string_arr = File.readlines(@u_db_address)
         db_string_arr.each do |line|
-            # f for fields
-            f = line.split(",") 
-            user = User.new
 
-            # Coerce data into original types (other 2 already string)
-            f[0] = f[0].to_i
-            f[1] = f[1].chomp
-            f[2] = f[2].chomp
-        
+            # Must read like so, because BCrypt uses commas
+            id_string = read_to_comma(line)
+            name_string = read_to_comma(line[id_string.length + 1..-1])
+            password_string = line[id_string.length + name_string.length + 2..-1]
+
+            user = User.new
+            id = id_string.to_i
+
             #Push into DB
-            user.load(f[0], f[1], f[2])
+            user.load(id, name_string, password_string)
             @db << user
         end
     end
@@ -120,14 +133,14 @@ class UserManager
     end
 
     def sign_in
-        prompt = TTY::Prompt.new
+        prompt = TTY::Prompt.new(active_color: :bright_cyan)
         response = prompt.select("Please select your username:", 
             @db.map(){ |user| {name: user.id.to_s + " - " + user.name, value: user.id}}
                     .sort_by {|obj| obj[:value]} )
 
         user = get_user(response)
         
-        pw = prompt.mask("Please enter your account password: ") do |q|
+        pw = prompt.mask("Please enter your account password:") do |q|
             q.validate -> (input) {user.password_match(input)}
             q.messages[:valid?] = "Error: Incorrect Password!"
         end

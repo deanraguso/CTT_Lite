@@ -13,7 +13,6 @@ class Session
 
         # Initialize the User Database and Login
         @um = UserManager.new
-        print "Welcome to "
         @um.menu
 
         # Once Signed in, pass id as activation down to 
@@ -48,9 +47,8 @@ class Session
     end
 
     def main_menu
-        prompt = TTY::Prompt.new
-        response = prompt.select("CTT-Lite", available_options,
-                                active_color: :blue)
+        prompt = TTY::Prompt.new(active_color: :blue)
+        response = prompt.select("CTT-Lite", available_options)
         system "clear"
         handle_main_menu(response)
     end
