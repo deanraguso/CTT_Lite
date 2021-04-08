@@ -15,14 +15,20 @@ class User
     end
 
     def create(id)
+        prompt = TTY::Prompt.new
         @id = id
-        print "Please enter a user name: "
-        @name = gets.chomp
+        
+        @name = prompt.ask("Please enter a user name: ") do |q|
+            q.validate -> (input) {input.length > 0}
+            q.messages[:valid?] = "Error: User name cannot be blank!"
+        end
 
-        print "Please enter a password: "
-        x = gets.chomp
-        p x
-        @password = BCrypt::Password.create(x)
+        @password = BCrypt::Password.create(
+            prompt.mask("Please enter a password: ", required: true) do |q|
+                q.validate -> (input) {input.length > 0}
+                q.messages[:valid?] = "Error: User name cannot be blank!"
+            end
+        )
     end
 
     def load(id, name, password)

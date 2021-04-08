@@ -157,7 +157,8 @@ class UserManager
     end
 
     def sign_out
+        prompt = TTY::Prompt.new
         @signed_in = false
-        puts "You are now signed out!"
+        prompt.error("You are now signed out!\n")
     end
 end

@@ -28,7 +28,8 @@ class Task
         @body = prompt.ask("Enter task description: ")
         @importance = prompt.slider("Importance: ", min: 0, max: 10, step: 1)
         @urgency = prompt.slider("Urgency: ", min: 0, max: 10, step: 1)
-        @time_required = prompt.slider("Task estimate duration in hours: ", min: 0, max: 8, step: 0.2)
+        @time_required = prompt.slider("Task estimate duration in hours: ",
+             min: 0, max: 4, step: 0.2)
         @date_response = prompt.ask("Enter task due date (dd/mm/yyyy): ") do |q|
             q.required true
             q.convert :date
@@ -38,6 +39,7 @@ class Task
 
         #Default Actions
         @creation_time = Date.today
+        prompt.ok("Task has been added!\n")
     end
 
     def load(id, title="", body="", completed=false, importance=0,

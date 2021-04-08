@@ -91,7 +91,13 @@ class Session
                 when "e"
                     @tm.edit_task(arg)
                 when "d"
-                    @tm.destroy_task(arg)
+                    ans = prompt.yes?("Are you sure you want to delete task #{arg}?") do |q|
+                        q.suffix "Yes/No"
+                    end
+
+                    if ans
+                        @tm.destroy_task(arg)
+                    end
                 when "c"
                     @tm.create_calendar(arg)
                     @tm.print_calendar
@@ -111,12 +117,12 @@ class Session
                 { name: "Show Task", value: "s" },
                 { name: "Edit Task", value: "e" },
                 { name: "Delete Task", value: "d" },
-                { name: "Print Calendar", value: "c" }
+                { name: "Print Calendar", value: "c" },
+                { name: "Optimise Calendar", value: "o" }
             ]
         end
         
         o += [ 
-            { name: "Optimise Calendar", value: "o" },
             { name: "Sign Out", value: "q" },
             { name: "Exit", value: "exit" }
         ]   

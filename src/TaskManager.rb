@@ -135,6 +135,8 @@ class TaskManager
             puts "You may only delete your own tasks!"
             return -1
         end
+        prompt = TTY::Prompt.new
+        prompt.error("Task #{id} has been deleted!\n")
     end
 
     def get_task(id=0)
