@@ -1,7 +1,7 @@
 require 'date' 
 
 class Task
-    attr_reader :id, :time_required, :user_id
+    attr_reader :id, :time_required, :user_id, :title
 
     def initialize(id=999, user_id=999)
         @id = id

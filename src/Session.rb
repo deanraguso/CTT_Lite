@@ -82,7 +82,9 @@ class Session
         else
             # Features that require an input argument.
             arg = prompt.select("Enter a valid Task ID: ", 
-                                @tm.available_tasks.map {|task| task.id})
+                        @tm.available_tasks
+                        .map {|task| {name: "#{task.id.to_s} - #{task.title}",
+                                      value: task.id}})
 
             case response
                 when "s"
