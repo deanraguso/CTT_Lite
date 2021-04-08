@@ -17,19 +17,18 @@ class UserManager
     end
 
     def menu
-        print_options
-        handle_options
+        prompt = TTY::Prompt.new
+        response = prompt.select("CTT-Lite", [
+            { name: "Sign In", value: "s" },
+            { name: "Create Account", value: "c" },
+            { name: "Exit", value: "exit" }
+        ])
+        handle_menu(response)
+        system "clear"
     end
 
-    def print_options
-        puts "s: Sign In"
-        puts "c: Create Account"
-        puts "exit: Exit Application"
-    end
-
-    def handle_options
-        arg = gets.chomp
-        case arg
+    def handle_menu(response)
+        case response
         when "s"
             sign_in
         when "c"

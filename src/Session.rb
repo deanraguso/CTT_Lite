@@ -13,6 +13,7 @@ class Session
 
         # Initialize the User Database and Login
         @um = UserManager.new
+        print "Welcome to "
         @um.menu
 
         # Once Signed in, pass id as activation down to 
@@ -48,7 +49,7 @@ class Session
 
     def main_menu
         prompt = TTY::Prompt.new
-        response = prompt.select("Welcome to CTT-Lite", [
+        response = prompt.select("CTT-Lite", [
             { name: "New Task", value: "n" },
             { name: "Show Task", value: "s" },
             { name: "Edit Task", value: "e" },
