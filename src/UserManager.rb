@@ -121,7 +121,9 @@ class UserManager
 
     def sign_in
         prompt = TTY::Prompt.new
-        response = prompt.select("Please select your username:", @db.map(){ |user| user.id }.sort())
+        response = prompt.select("Please select your username:", 
+            @db.map(){ |user| {name: user.id.to_s + " - " + user.name, value: user.id}}
+                    .sort_by {|obj| obj[:value]} )
 
         user = get_user(response)
 
