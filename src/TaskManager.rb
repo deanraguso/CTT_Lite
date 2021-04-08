@@ -22,6 +22,15 @@ class TaskManager
         @calendar = Calendar.new(@db, 7, current_user_id)
     end
 
+    def has_entries?
+        # Does the current user have any entries?
+        return available_tasks.length > 0
+    end
+
+    def available_tasks
+        return @db.filter {|task| task.user_id == @current_user_id}
+    end
+
     def task_belongs_to_user?(task_id)
         owner_id = -1
 
@@ -126,6 +135,8 @@ class TaskManager
             puts "You may only delete your own tasks!"
             return -1
         end
+        prompt = TTY::Prompt.new
+        prompt.error("Task #{id} has been deleted!\n")
     end
 
     def get_task(id=0)
