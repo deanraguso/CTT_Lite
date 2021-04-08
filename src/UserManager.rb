@@ -73,9 +73,10 @@ class UserManager
 
             user = User.new
             id = id_string.to_i
+            password = password_string.chomp
 
             #Push into DB
-            user.load(id, name_string, password_string)
+            user.load(id, name_string, password)
             @db << user
         end
     end
@@ -139,7 +140,6 @@ class UserManager
                     .sort_by {|obj| obj[:value]} )
 
         user = get_user(response)
-        
         pw = prompt.mask("Please enter your account password:") do |q|
             q.validate -> (input) {user.password_match(input)}
             q.messages[:valid?] = "Error: Incorrect Password!"

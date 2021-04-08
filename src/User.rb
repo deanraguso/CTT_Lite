@@ -1,7 +1,8 @@
 require 'bcrypt'
+require 'byebug'
 
 class User
-    attr_reader :id, :name
+    attr_reader :id, :name, :password
     def initialize(id=999)
         @id = id
         @name = ""
@@ -9,8 +10,8 @@ class User
     end
 
     def password_match(pw)
-        p pw
-        return @password == pw.chomp
+        bcrypt_password = BCrypt::Password.new(@password)
+        return bcrypt_password == pw.chomp
     end
 
     def create(id)
@@ -27,7 +28,7 @@ class User
     def load(id, name, password)
         @id = id
         @name = name
-        @password = password
+        @password = BCrypt::Password.new(password)
     end
 
     def to_s
