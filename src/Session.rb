@@ -36,8 +36,8 @@ class Session
     # Handles when users input a help flag, (./ctt.sh -h or ./ctt.sh --help)
     def handle_help
         if (ARGV.length >= 1) && is_help_flag?(ARGV[0])
-            puts "You included a help flag"
-            # helper(menu_selection) (Handles help flags)
+            puts "Detailed Instructions on application use can be found in the README.md file."
+            puts "Look under the Installation heading for more information!"
             exit
         else
             # Continue as normal
