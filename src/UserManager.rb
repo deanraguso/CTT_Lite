@@ -127,7 +127,7 @@ class UserManager
 
         user = get_user(response)
         
-        pw = prompt.ask("Please enter your account password: ") do |q|
+        pw = prompt.mask("Please enter your account password: ") do |q|
             q.validate -> (input) {user.password_match(input)}
             q.messages[:valid?] = "Error: Incorrect Password!"
         end

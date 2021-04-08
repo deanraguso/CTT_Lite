@@ -49,12 +49,15 @@ class Session
 
     def main_menu
         prompt = TTY::Prompt.new
-        response = prompt.select("CTT-Lite", available_options)
+        response = prompt.select("CTT-Lite", available_options,
+                                active_color: :blue)
         system "clear"
         handle_main_menu(response)
     end
 
     def handle_main_menu(response)
+        prompt = TTY::Prompt.new
+
         if (['n', 'q', 'o',"exit"].include?(response))
             # Features that won't require an extra input argument.
             case response
@@ -70,9 +73,16 @@ class Session
                 puts "Error: Argument not accounted for!"
                 raise 
             end
+
+        elsif (['c'].include?(response))
+            arg = prompt.slider("Enter a timespan in days: ", min: 0, max: 30, step:2)
+            case response
+            when "c"
+                @tm.create_calendar(arg)
+                @tm.print_calendar
+            end
         else
             # Features that require an input argument.
-            prompt = TTY::Prompt.new
             arg = prompt.select("Enter a valid Task ID: ", 
                                 @tm.available_tasks.map {|task| task.id})
 
