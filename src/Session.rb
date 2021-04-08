@@ -48,7 +48,7 @@ class Session
 
     def main_menu
         prompt = TTY::Prompt.new
-        a= prompt.select("Welcome to CTT-Lite", [
+        response = prompt.select("Welcome to CTT-Lite", [
             { name: "New Task", value: "n" },
             { name: "Show Task", value: "s" },
             { name: "Edit Task", value: "e" },
@@ -59,7 +59,48 @@ class Session
             { name: "Exit", value: "exit" }
         ])
         system "clear"
-        handle_menu(a)
+        handle_main_menu(response)
+    end
+
+    def handle_main_menu(response)
+
+        if (['n', 'q', 'o',"exit"].include?(response))
+            # Features that won't require an extra input argument.
+            case response
+            when "n"
+                @tm.new_task
+            when "q"
+                sign_out
+            when "exit"
+                exit
+            when "o"
+                # Calendar.optimise()
+            else
+                puts "Error: Argument not accounted for!"
+                raise 
+            end
+        else
+            # Features that require an input argument.
+            print "Enter a valid Task ID: "
+            arg = gets.chomp.to_i
+            # Implement TTY-prompt to show available task IDs LATER
+
+            case response
+                when "s"
+                    t = @tm.get_task(arg)
+                    t.print_task unless t==-1
+                when "e"
+                    @tm.edit_task(arg)
+                when "d"
+                    @tm.destroy_task(arg)
+                when "c"
+                    @tm.create_calendar(arg)
+                    @tm.print_calendar
+                else
+                    puts "Error: Argument not accounted for!"
+                    raise 
+            end
+        end
     end
 
     def sign_out
@@ -68,49 +109,5 @@ class Session
 
         # Essentially, if you log out, you must log into a new valid user. 
         @tm = TaskManager.new(@um.user.id)
-    end
-
-    def handle_menu(a)
-        menu_selection=a
-
-        if (menu_selection.include? " ")
-            # When an input argument is given.
-            menu_args = menu_selection.split(' ')
-
-            arg = menu_args[1].to_i
-            ms = menu_args[0]
-
-        elsif (['n', 'q', "exit"].include?(menu_selection))
-            # Features that won't require an input argument.
-            ms = menu_selection
-        else
-            # Features that do require an input argument.
-            ms = menu_selection
-            print "Enter a valid Task ID: "
-            arg = gets.chomp.to_i
-        end
-
-        case ms
-            when "s"
-                t = @tm.get_task(arg)
-                t.print_task unless t==-1
-            when "n"
-                @tm.new_task
-            when "e"
-                @tm.edit_task(arg)
-            when "d"
-                @tm.destroy_task(arg)
-            when "c"
-                @tm.create_calendar(arg)
-                @tm.print_calendar
-            when "o"
-                # Calendar.optimise()
-            when "q"
-                sign_out
-            when "exit"
-                exit
-            else
-                puts "That command was not recognized."
-        end
     end
 end
