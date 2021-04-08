@@ -60,7 +60,7 @@ class Session
     def handle_main_menu(response)
         prompt = TTY::Prompt.new
 
-        if (['n', 'q', 'o',"exit"].include?(response))
+        if (['n', 'q', 'o', 'c', "exit"].include?(response))
             # Features that won't require an extra input argument.
             case response
             when "n"
@@ -70,18 +70,13 @@ class Session
             when "exit"
                 exit
             when "o"
-                # Calendar.optimise()
+                @tm.calendar.options
+            when "c"
+                @tm.create_calendar
+                @tm.print_calendar
             else
                 puts "Error: Argument not accounted for!"
                 raise 
-            end
-
-        elsif (['c'].include?(response))
-            arg = prompt.slider("Enter a timespan in days: ", min: 0, max: 30, step:2)
-            case response
-            when "c"
-                @tm.create_calendar(arg)
-                @tm.print_calendar
             end
         else
             # Features that require an input argument.
@@ -127,7 +122,7 @@ class Session
                 { name: "Edit Task", value: "e" },
                 { name: "Delete Task", value: "d" },
                 { name: "Print Calendar", value: "c" },
-                { name: "Optimise Calendar", value: "o" }
+                { name: "Calendar Options", value: "o" }
             ]
         end
         

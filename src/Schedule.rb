@@ -17,11 +17,11 @@ class Schedule
         @safety_factor = 1.25
 
         # You must form a schedule when you instance it, changes can happen later.
-        form_schedule(@db, @duration)
+        soft_schedule(@db, @duration)
     end
 
     # Must adjust so that increment keeps happening to skip over rest_days
-    def form_schedule(db, timeframe=7)
+    def soft_schedule(db, timeframe=7)
         index = 0
         @plan[index] = Hash.new
         @plan[index][:hours] = 0.0
@@ -46,7 +46,14 @@ class Schedule
                 @plan[index][:tasks] << task
             end
         end
+
+        if index > timeframe
+            puts "Was unable to fit schedule into timeframe of #{time} days!"
+        end
+
     end
+
+    
 
     # Print the Schedule as it exists now. (Potentially unoptimised)
     def print_plan
@@ -55,7 +62,7 @@ class Schedule
         @plan.each_with_index do |day, index|
             print "#{index+1}. #{Date::DAYNAMES[(today+index).cwday%7]} with #{day[:hours]} hours of work:\n\t"
             day[:tasks].each do |task| 
-                print "ID: #{task.id}\tTitle: #{task.title}\n\t"
+                print "ID: #{task.id}\tTitle: #{task.title}\t (#{task.time_required} hours)\n\t"
             end
             puts
         end
