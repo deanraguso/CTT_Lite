@@ -8,7 +8,7 @@ require 'tty-prompt'
 
 class Session
     def initialize
-        # Handle all Help Flags
+        # Handle Help Flag
         handle_help
 
         # Initialize the User Database and Login
