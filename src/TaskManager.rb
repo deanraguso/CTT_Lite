@@ -22,15 +22,17 @@ class TaskManager
         @calendar = Calendar.new(@db, 7, current_user_id)
     end
 
+    # Does the current user have any entries?
     def has_entries?
-        # Does the current user have any entries?
         return available_tasks.length > 0
     end
 
+    # Returns an array of all available tasks to current user.
     def available_tasks
         return @db.filter {|task| task.user_id == @current_user_id}
     end
 
+    # Checks that a task belongs to user. (After TTY-Prompt, acts only as a guard.)
     def task_belongs_to_user?(task_id)
         owner_id = -1
 
@@ -47,6 +49,7 @@ class TaskManager
         return owner_id == @current_user_id
     end
 
+    # Calls for the recreation of a calendar.
     def create_calendar(timeframe)
         @calendar.create_schedule(timeframe)
     end
@@ -55,6 +58,7 @@ class TaskManager
         @calendar.print_schedule
     end
 
+    # Loads in the configuration file.
     def load_config
         settings_file = File.open("./config/db_settings.txt","r")
         config = settings_file.readlines()
@@ -87,6 +91,7 @@ class TaskManager
         end
     end
 
+    # Saves db back to persistent memory.
     def save_db
         db_fp = File.open(@db_address, "w")
         @db.each do |task|
@@ -106,6 +111,8 @@ class TaskManager
 
         return next_id
     end
+
+    # BELOW are calls to Task's CRUD functionality.
 
     def new_task
         t = Task.new(get_next_id, @current_user_id) #Must change number

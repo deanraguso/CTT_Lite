@@ -18,10 +18,11 @@ class Session
         # Once Signed in, pass id as activation down to 
         @tm = TaskManager.new(@um.user.id)
 
-        login_menu
+        app_menu
     end
 
-    def login_menu
+    # Menu for application.
+    def app_menu
         loop do
             if @um.signed_in
                 main_menu
@@ -32,8 +33,9 @@ class Session
         end
     end
 
+    # Handles when users input a help flag, (./ctt.sh -h or ./ctt.sh --help)
     def handle_help
-        if (ARGV.length >= 1) && is_help_flag(ARGV[0])
+        if (ARGV.length >= 1) && is_help_flag?(ARGV[0])
             puts "You included a help flag"
             # helper(menu_selection) (Handles help flags)
             exit
@@ -42,10 +44,11 @@ class Session
         end
     end
 
-    def is_help_flag(arg_string)
+    def is_help_flag?(arg_string)
         return arg_string.include?("-h") || arg_string.include?("--help")
     end
 
+    # Main Menu, once you have signed in. (Task options, Calender Options, Sign Out and Exit)
     def main_menu
         prompt = TTY::Prompt.new(active_color: :blue)
         response = prompt.select("CTT-Lite", available_options)
@@ -53,6 +56,7 @@ class Session
         handle_main_menu(response)
     end
 
+    # Handles response to main_menu
     def handle_main_menu(response)
         prompt = TTY::Prompt.new
 
@@ -110,10 +114,13 @@ class Session
         end
     end
 
+    # Generates Options to be displayed in main menu dynamically.
     def available_options 
         o = 
         [{ name: "New Task", value: "n" }]
 
+        # To avoid trying to iterate over nill arrays, only give option that requires selection of a task if
+        # the user has tasks, using has_entries? method.
         if @tm.has_entries? 
             o += [
                 { name: "Show Task", value: "s" },

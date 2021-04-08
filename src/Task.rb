@@ -16,6 +16,7 @@ class Task
         @user_id = user_id
     end
 
+    # Create a new task, promps and feeds response into this instance.
     def create
         prompt = TTY::Prompt.new
         system 'clear'
@@ -42,6 +43,7 @@ class Task
         prompt.ok("Task has been added!\n")
     end
 
+    # Load a pre-existing task into this instance. 
     def load(id, title="", body="", completed=false, importance=0,
         urgency=0, time_required=0, due_date=Date.today, 
         creation_time=Date.today, user_id)
@@ -73,6 +75,7 @@ class Task
         puts
     end
 
+    # To string, convention is to have commas separated within too!
     def to_s
         return  @id.to_s + "," +
                 @title.to_s + "," +

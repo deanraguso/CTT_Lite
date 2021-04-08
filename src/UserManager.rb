@@ -16,6 +16,7 @@ class UserManager
         @user = User.new #To avoid errors
     end
 
+    # Main user sign in menu.
     def menu
         prompt = TTY::Prompt.new(active_color: :yellow)
         response = prompt.select("CTT-Lite", [
@@ -27,6 +28,7 @@ class UserManager
         system "clear"
     end
 
+    # Handles the user sign in menu
     def handle_menu(response)
         case response
         when "s"
@@ -40,6 +42,7 @@ class UserManager
         end
     end
 
+    # Loads the database configuration from settings file in config.
     def load_config
         settings_file = File.open("./config/u_settings.txt","r")
         config = settings_file.readlines()
@@ -49,6 +52,7 @@ class UserManager
         settings_file.close
     end 
 
+    # Reads string to first comma encountered, returns string (excluding comma).
     def read_to_comma(line)
         o = ""
         line.each_char do |c|
@@ -62,11 +66,12 @@ class UserManager
         return o
     end
 
+    # Load the database using the setting pulled from config file.
     def load_db
         db_string_arr = File.readlines(@u_db_address)
         db_string_arr.each do |line|
 
-            # Must read like so, because BCrypt uses commas
+            # Must read like so, because BCrypt uses commas for passwords, (splitting on comma wont work).
             id_string = read_to_comma(line)
             name_string = read_to_comma(line[id_string.length + 1..-1])
             password_string = line[id_string.length + name_string.length + 2..-1]
@@ -81,6 +86,7 @@ class UserManager
         end
     end
 
+    # Save user db back to persistent memory.
     def save_db
         db_fp = File.open(@u_db_address, "w")
         @db.each do |user|
@@ -100,6 +106,37 @@ class UserManager
 
         return next_id
     end
+
+    def sign_in
+        prompt = TTY::Prompt.new(active_color: :bright_cyan)
+        response = prompt.select("Please select your username:", 
+            @db.map(){ |user| {name: user.id.to_s + " - " + user.name, value: user.id}}
+                    .sort_by {|obj| obj[:value]} )
+
+        user = get_user(response)
+        pw = prompt.mask("Please enter your account password:") do |q|
+            q.validate -> (input) {user.password_match(input)}
+            q.messages[:valid?] = "Error: Incorrect Password!"
+        end
+        
+        # Authenticate Login
+        if user.password_match(pw)
+            @signed_in = true
+            @user = user
+            puts "You are now logged in!"
+        else
+            "You entered the incorrect password!"
+            exit
+        end
+    end
+
+    def sign_out
+        prompt = TTY::Prompt.new
+        @signed_in = false
+        prompt.error("You are now signed out!\n")
+    end
+
+    # BELOW is the calls to CRUD functionality for the User class.
 
     def new_user
         u = User.new
@@ -131,34 +168,5 @@ class UserManager
         u.create(id)
         @db << u
         save_db
-    end
-
-    def sign_in
-        prompt = TTY::Prompt.new(active_color: :bright_cyan)
-        response = prompt.select("Please select your username:", 
-            @db.map(){ |user| {name: user.id.to_s + " - " + user.name, value: user.id}}
-                    .sort_by {|obj| obj[:value]} )
-
-        user = get_user(response)
-        pw = prompt.mask("Please enter your account password:") do |q|
-            q.validate -> (input) {user.password_match(input)}
-            q.messages[:valid?] = "Error: Incorrect Password!"
-        end
-        
-        # Authenticate Login
-        if user.password_match(pw)
-            @signed_in = true
-            @user = user
-            puts "You are now logged in!"
-        else
-            "You entered the incorrect password!"
-            exit
-        end
-    end
-
-    def sign_out
-        prompt = TTY::Prompt.new
-        @signed_in = false
-        prompt.error("You are now signed out!\n")
     end
 end

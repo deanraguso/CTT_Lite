@@ -10,10 +10,12 @@ class User
     end
 
     def password_match(pw)
+        # BCrypt passwords get saved as strings, but must be converted back into Passwords to compare accurately.
         bcrypt_password = BCrypt::Password.new(@password)
         return bcrypt_password == pw.chomp
     end
 
+    # Create new user.
     def create(id)
         prompt = TTY::Prompt.new
         @id = id
@@ -31,12 +33,14 @@ class User
         )
     end
 
+    # Load a different user into this instance.
     def load(id, name, password)
         @id = id
         @name = name
         @password = BCrypt::Password.new(password)
     end
 
+    # Puts user object into a string format, comma separated.
     def to_s
         user_string = @id.to_s + "," + @name + "," + @password.chomp
     end
