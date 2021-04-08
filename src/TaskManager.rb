@@ -22,6 +22,11 @@ class TaskManager
         @calendar = Calendar.new(@db, 7, current_user_id)
     end
 
+    def has_entries?
+        # Does the current user have any entries?
+        return available_tasks.length > 0
+    end
+
     def available_tasks
         return @db.filter {|task| task.user_id == @current_user_id}
     end

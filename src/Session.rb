@@ -49,16 +49,7 @@ class Session
 
     def main_menu
         prompt = TTY::Prompt.new
-        response = prompt.select("CTT-Lite", [
-            { name: "New Task", value: "n" },
-            { name: "Show Task", value: "s" },
-            { name: "Edit Task", value: "e" },
-            { name: "Delete Task", value: "d" },
-            { name: "Print Calendar", value: "c" },
-            { name: "Optimise Calendar", value: "o" },
-            { name: "Sign Out", value: "q" },
-            { name: "Exit", value: "exit" }
-        ])
+        response = prompt.select("CTT-Lite", available_options)
         system "clear"
         handle_main_menu(response)
     end
@@ -101,6 +92,28 @@ class Session
                     raise 
             end
         end
+    end
+
+    def available_options 
+        o = 
+        [{ name: "New Task", value: "n" }]
+
+        if @tm.has_entries? 
+            o += [
+                { name: "Show Task", value: "s" },
+                { name: "Edit Task", value: "e" },
+                { name: "Delete Task", value: "d" },
+                { name: "Print Calendar", value: "c" }
+            ]
+        end
+        
+        o += [ 
+            { name: "Optimise Calendar", value: "o" },
+            { name: "Sign Out", value: "q" },
+            { name: "Exit", value: "exit" }
+        ]   
+        
+        return o
     end
 
     def sign_out
