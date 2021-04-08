@@ -64,7 +64,6 @@ class Session
     end
 
     def handle_main_menu(response)
-
         if (['n', 'q', 'o',"exit"].include?(response))
             # Features that won't require an extra input argument.
             case response
@@ -82,9 +81,9 @@ class Session
             end
         else
             # Features that require an input argument.
-            print "Enter a valid Task ID: "
-            arg = gets.chomp.to_i
-            # Implement TTY-prompt to show available task IDs LATER
+            prompt = TTY::Prompt.new
+            arg = prompt.select("Enter a valid Task ID: ", 
+                                @tm.available_tasks.map {|task| task.id})
 
             case response
                 when "s"

@@ -22,6 +22,10 @@ class TaskManager
         @calendar = Calendar.new(@db, 7, current_user_id)
     end
 
+    def available_tasks
+        return @db.filter {|task| task.user_id == @current_user_id}
+    end
+
     def task_belongs_to_user?(task_id)
         owner_id = -1
 
