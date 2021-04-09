@@ -3,7 +3,7 @@ require_relative 'Schedule.rb'
 class Calendar
     def initialize(db, user_id)
         @user_id = user_id
-        @mode = "balanced"
+        @mode = "soft"
         @timeframe = 7
 
         # Remakes database, filtering out any entries that don't belong to user.
@@ -18,13 +18,12 @@ class Calendar
         prompt = TTY::Prompt.new
         @timeframe = prompt.slider("Timeline in days: ", min: 1, max: 14, step: 1)
         @mode = prompt.select("CTT-Lite", [
-            # Balanced: Get's all tasks done within timeframe.
-            { name: "Balanced Schedule", value: "balanced" },
             # Hard: Get's all tasks done within timeframe, get's tasks done ASAP.
             { name: "Hard Deadline", value: "hard" },
             # Soft: Get's all tasks done, pushed timeframe out for working hours.
             { name: "Soft Deadline", value: "soft" }
         ])
+        create_schedule
         system 'clear'
         prompt.ok("Calendar Options have been changed!")
     end
@@ -34,7 +33,15 @@ class Calendar
     end
 
     def create_schedule
-        @schedule.soft_schedule(@db, @timeframe)
+        case @mode
+        when "hard"
+            @schedule.hard_schedule(@db, @timeframe)
+        when "soft"
+            @schedule.soft_schedule(@db, @timeframe)
+        else
+            puts "Error: Should never get here!"
+            exit
+        end
     end
 
     def press_enter_to_continue
