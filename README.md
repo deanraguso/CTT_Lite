@@ -61,3 +61,4 @@ This project is limited to the command line, with the features specified above. 
 - tty-prompt - https://rubygems.org/gems/tty-prompt
 - bcrypt - https://rubygems.org/gems/bcrypt
 - byebug - https://rubygems.org/gems/byebug
+- ascii-charts - https://rubygems.org/gems/ascii-charts/versions/0.9.2

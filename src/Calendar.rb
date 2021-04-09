@@ -1,4 +1,5 @@
 require_relative 'Schedule.rb'
+require 'ascii_charts'
 
 class Calendar
     def initialize(db, user_id)
@@ -53,7 +54,18 @@ class Calendar
     def print_summary
         puts "Calendar Mode:\t\t#{@mode.upcase}"
         puts "Timeframe:\t\t#{@timeframe}"
-        puts "Number of Tasks:\t#{@db.length}"
+        print "Number of Tasks:\t#{@db.length}"
+    end
+
+    def print_graph
+        data = @schedule.plan.each_with_index.map() { |day, index| 
+            [index+1, day[:hours]]
+        }
+        # Space Graph Out
+        data.unshift([0,0])
+        
+        puts AsciiCharts::Cartesian.new(data,
+            :bar => true, :hide_zero => true).draw
     end
 
     def print_schedule
@@ -63,7 +75,7 @@ class Calendar
         press_enter_to_continue
         system 'clear'
         print_summary
+        print_graph
         press_enter_to_continue
-
     end
 end
