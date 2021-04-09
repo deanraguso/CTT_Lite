@@ -19,7 +19,7 @@ class TaskManager
         load_db
         
         # Basic and Original Calendar 
-        @calendar = Calendar.new(@db, 7, current_user_id)
+        @calendar = Calendar.new(@db, current_user_id)
     end
 
     # Does the current user have any entries?
@@ -50,8 +50,8 @@ class TaskManager
     end
 
     # Calls for the recreation of a calendar.
-    def create_calendar(timeframe)
-        @calendar.create_schedule(timeframe)
+    def create_calendar
+        @calendar.create_schedule
     end
 
     def print_calendar
