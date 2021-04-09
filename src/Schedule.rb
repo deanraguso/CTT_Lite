@@ -1,8 +1,5 @@
-DAY = {1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 
-    4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday'}
-
 class Schedule
-    attr_reader :plan
+    attr_reader :plan, :rest_days
     def initialize(db, duration)
         @db = db
         @duration = duration
@@ -95,7 +92,6 @@ class Schedule
                 @plan[index][:tasks] << task
 
             else 
-                puts task.id
                 #If the plan didn't fit, go to next day
                 index += 1 
 

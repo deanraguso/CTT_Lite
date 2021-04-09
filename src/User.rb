@@ -1,5 +1,4 @@
 require 'bcrypt'
-require 'byebug'
 
 class User
     attr_reader :id, :name, :password
