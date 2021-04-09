@@ -15,7 +15,7 @@ class Schedule
 
         @rest_days = [6,0] 
         @working_hours = 8
-        @safety_factor = 1.25
+        @safety_factor = 1
 
         # You must form a schedule when you instance it, changes can happen later.
         soft_schedule(@db, @duration)
