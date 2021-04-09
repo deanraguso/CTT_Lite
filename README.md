@@ -1,4 +1,5 @@
 # Calendar Task Tracker - Lite
+<img src="/docs/Calendar_Screenshot.png">
 #### <em>Dean Raguso</em>
 
 ## Installation
