@@ -27,7 +27,17 @@ class Schedule
         @plan[index][:hours] = 0.0
         @plan[index][:tasks] = []
 
+        today = Date.today
+
         db.each do |task|
+            # Skip Weekends
+            while (@rest_days.include?((today+index).cwday%7))
+                index += 1
+                @plan[index] = Hash.new
+                @plan[index][:hours] = 0.0
+                @plan[index][:tasks] = []
+            end
+
             if ( task.time_required + @plan[index][:hours] ) * @safety_factor <= @working_hours
 
                 # If the plan fits on the current day
@@ -36,11 +46,22 @@ class Schedule
 
             else 
                 #If the plan didn't fit, go to next day
-                index += 1 #Adjust this to account for weekends later
+                index += 1 
 
+                # Instance new day, even if it's saturday.
                 @plan[index] = Hash.new
                 @plan[index][:hours] = 0.0
                 @plan[index][:tasks] = []
+
+                # Skip Weekends
+                while (@rest_days.include?((today+index).cwday%7))
+                    index += 1
+
+                    # It would still instance saturday, even if not used, MUST!
+                    @plan[index] = Hash.new
+                    @plan[index][:hours] = 0.0
+                    @plan[index][:tasks] = []
+                end
                 
                 @plan[index][:hours] += task.time_required
                 @plan[index][:tasks] << task
@@ -50,7 +71,6 @@ class Schedule
         if index > timeframe
             puts "Was unable to fit schedule into timeframe of #{time} days!"
         end
-
     end
 
     
@@ -60,7 +80,16 @@ class Schedule
         system 'clear'
         today = Date.today
         @plan.each_with_index do |day, index|
+
             print "#{index+1}. #{Date::DAYNAMES[(today+index).cwday%7]} with #{day[:hours]} hours of work:\n\t"
+            
+            # Skip empty days
+            if day[:tasks].length == 0
+                puts '- REST -'
+                puts
+                next
+            end
+
             day[:tasks].each do |task| 
                 print "ID: #{task.id}\tTitle: #{task.title}\t (#{task.time_required} hours)\n\t"
             end
